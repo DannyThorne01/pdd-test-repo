@@ -2,9 +2,11 @@
 // import './App.css';
 import React, { useState, useEffect } from 'react';
 
+
 const App: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [response, setResponse] = useState<string>('');
+  const [receive, setReceived] = useState<string>('');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -12,7 +14,6 @@ const App: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     try {
       const res = await fetch('http://localhost:8080/message', { // turn this into api
         method: 'POST',
@@ -28,8 +29,30 @@ const App: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchMessage = async () =>{
+      try {
+        const response = await fetch('http://localhost:8080/data',{
+          method: 'GET'
+        }) 
+        let json_object = await response.json()
+        setReceived(json_object.message)
+        // window.location.reload();
+        
+      }catch (error) {
+        console.error('Error fetching data from Express:', error);
+      }
+    };
+    fetchMessage();
+  },[]);
+  console.log(receive);
+  // window.location.reload();
   return (
     <div>
+      <div>
+        <h1>Message from Flask (via Express):</h1>
+        <p>{receive}</p>
+      </div>
       <h1>Send a Message</h1>
       <form onSubmit={handleSubmit}>
         <input

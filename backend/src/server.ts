@@ -1,7 +1,8 @@
 
 import express from "express";
 import cors from "cors";
-import { getMessage, postMessage} from "./controllers/testerController";
+import { getMessage, postMessage, receiveMessage, sendData} from "./controllers/testerController";
+import { send } from "process";
 
  
 const app = express();
@@ -19,6 +20,8 @@ const port = process.env.PORT || 8080;
 
 app.get('/message', getMessage)
 app.post('/message', postMessage)
+app.post('/notify', receiveMessage)
+app.get('/data', sendData)
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
