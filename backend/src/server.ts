@@ -1,15 +1,11 @@
 // // backend/src/index.ts
-import express from 'express';
-import cors from 'cors';
+const {express} = require('express');
+const {cors} = require('cors');
+const {getMessage} = require("../dist/controllers/testerController.ts");
+// import { getMessage, postMessage} from "./controllers/testerController";
 
-
-const corsOptions ={
-   origin:'*', 
-   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-   credentials:true,            //access-control-allow-credentials:true
-   optionSuccessStatus:200,
-}
-
+// const {getMessage, postMessage} = require("./testerController")
+ 
 const app = express();
 
 // Configure CORS
@@ -23,17 +19,9 @@ app.use(cors({
 app.use(express.json());
 const port = process.env.PORT || 8080;
 
-app.get('/', (req, res) => {
-  res.send('Hello from Express + TypeScriptkgilyugiugliuygliu');
-});
-app.post('/message', (req, res) => {
-  const { message } = req.body;
-  if (!message) {
-    return res.status(400).send({ response: 'No message received' });
-  }
+app.get('/message', getMessage)
+// app.post('/message', postMessage)
 
-  res.send({ response: `Message received: ${message}` });
-});
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
