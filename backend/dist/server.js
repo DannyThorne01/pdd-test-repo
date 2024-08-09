@@ -1,32 +1,27 @@
-// // backend/src/index.ts
-import express from 'express';
-import cors from 'cors';
-const corsOptions = {
-    origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, //access-control-allow-credentials:true
-    optionSuccessStatus: 200,
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const app = express();
+Object.defineProperty(exports, "__esModule", { value: true });
+// // backend/src/index.ts
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
+// var path = require("path");
+// const {getMessage} = require(path.join(__dirname,'controllers/testerController.ts'));
+const testerController_1 = require("./controllers/testerController");
+// const {getMessage, postMessage} = require("./testerController")
+const app = (0, express_1.default)();
 // Configure CORS
-app.use(cors({
+app.use((0, cors_1.default)({
     origin: 'http://localhost:3000',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // if you need to handle cookies or authentication
 }));
 // Middleware to parse JSON requests
-app.use(express.json());
+app.use(express_1.default.json());
 const port = process.env.PORT || 8080;
-app.get('/', (req, res) => {
-    res.send('Hello from Express + TypeScriptkgilyugiugliuygliu');
-});
-app.post('/message', (req, res) => {
-    const { message } = req.body;
-    if (!message) {
-        return res.status(400).send({ response: 'No message received' });
-    }
-    res.send({ response: `Message received: ${message}` });
-});
+app.get('/message', testerController_1.getMessage);
+app.post('/message', testerController_1.postMessage);
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
