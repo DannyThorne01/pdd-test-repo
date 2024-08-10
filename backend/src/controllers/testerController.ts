@@ -8,15 +8,14 @@ export const getMessage = (req: Request, res: Response) => {
 };
 
 export const postMessage = async (req: Request, res: Response) => {
+  // POST: Send a POST request with the message to the Flask server
   const { message } = req.body;
   if (!message) {
     console.log('No message received');
     return res.status(400).send({ response: 'No message received' });
   }
   try {
-    console.log('Sending message to Flask API:', message);
     const flaskRes = await axios.post('http://localhost:4000/process', { message });
-    console.log('Received response from Flask API:', flaskRes.data.response.response);
     res.send(flaskRes.data.response.response);
   } catch (error) {
     console.error('Error communicating with Flask API:', error);
@@ -25,24 +24,22 @@ export const postMessage = async (req: Request, res: Response) => {
 };
 
 export const receiveMessage = (req: Request, res: Response) => {
-  console.log('Incoming request to /receive-data');
-  console.log('Request body:', req.body);
+  // POST: Receives the return information from the Flask server
 
   if (!req.body) {
-    console.log('No body received');
     return res.status(400).send({ status: 'No data received' });
   }
   latestDataFromFlask  = req.body;
-  
-  console.log('Received notification from Flask: ', latestDataFromFlask);
-  res.send({ status: 'Notification received', latestDataFromFlask });
+  res.send({ status: 'Notification received', 'actual_data':latestDataFromFlask });
 };
 
 export const sendData = (req: Request, res: Response) => {
+  // GET: Upon request sends the data received from FLASK to frontend
   if (latestDataFromFlask) {
     res.json(latestDataFromFlask);  // Send the stored data to the frontend
   } else {
     res.status(404).json({ message: 'No data received from Flask yet' });
   }
+  
 }; 
 

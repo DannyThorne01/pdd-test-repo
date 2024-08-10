@@ -2,31 +2,28 @@
 from flask import request, jsonify
 import requests
 
+
 def tester_receive_message():
+  """
+  POST Function that will receive the message from the Express Server `[POST] express/message` and then 
+  Sends that message to `[POST] express/notify`.
+  """
   data = request.get_json()
   message = data.get('message', '')
 
-  # Log the incoming message
-  print(f'Received message: {message}')
-
   if not message:
       return jsonify({'response': 'No message received'}), 400
-
-  # Process the message (e.g., call your ML model here)
-  # response_message = f'Message processed: {message}'
-
-  # return jsonify({'response': response_message})
-  response_message = tester_send_message()
-  print("FFFFFFFFFFFFFFFFFF")
-  print(response_message.get_json())
+  response_message = tester_send_message(message)
   return jsonify({'response': response_message.get_json()})
-  # return jsonify({"status": "success", "response": response_message})
 
-def tester_send_message():
-  json_message = {'message': 'Message sent from backend to front'}
+
+def tester_send_message(ze_message):
+  """
+  HELPER function that sends a message to a specified route or api 
+  """
+  json_message = {'message': ze_message}
   try:
     express_message = requests.post('http://localhost:8080/notify', json=json_message)
-    # express_message.raise_for_status()
     express_message_data = express_message.json()
   except requests.exceptions.RequestException as e:
     return jsonify({"Error_Message":f"There was an error {e}"})

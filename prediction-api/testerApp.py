@@ -12,9 +12,9 @@ def home():
 def process():
     return tester_receive_message()
 
-@app.route('/return', methods=['POST'])
-def return_message():
-    return tester_send_message()
+# @app.route('/return', methods=['POST'])
+# def return_message():
+#     return tester_send_message()
 
 
 if __name__ == '__main__':
