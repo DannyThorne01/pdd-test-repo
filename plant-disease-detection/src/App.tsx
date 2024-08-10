@@ -7,6 +7,7 @@ const App: React.FC = () => {
   const [message, setMessage] = useState<string>('');
   const [response, setResponse] = useState<string>('');
   const [receive, setReceived] = useState<string>('');
+  const [send, setSend] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -22,31 +23,36 @@ const App: React.FC = () => {
         },
         body: JSON.stringify({ message }),
       });
+      
+      console.log(send)
       const data = await res.json();
-      setResponse(data.response);
+      console.log(data)
+      setSend(true);
+      console.log(send);
+      setResponse(data.message);
     } catch (error) {
       setResponse('Error sending message');
     }
   };
 
+  const fetchMessage = async () =>{
+    try {
+      const response = await fetch('http://localhost:8080/data') 
+      let json_object = await response.json()
+      console.log(json_object.message)
+      setReceived(json_object.message)
+    }catch (error) {
+      console.error('Error fetching data from Express:', error);
+    }
+    setSend(false);
+  }
+
   useEffect(() => {
-    const fetchMessage = async () =>{
-      try {
-        const response = await fetch('http://localhost:8080/data',{
-          method: 'GET'
-        }) 
-        let json_object = await response.json()
-        setReceived(json_object.message)
-        // window.location.reload();
-        
-      }catch (error) {
-        console.error('Error fetching data from Express:', error);
-      }
-    };
     fetchMessage();
-  },[]);
-  console.log(receive);
-  // window.location.reload();
+    console.log("aye");
+  },[send]);
+
+
   return (
     <div>
       <div>

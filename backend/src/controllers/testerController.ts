@@ -16,8 +16,8 @@ export const postMessage = async (req: Request, res: Response) => {
   try {
     console.log('Sending message to Flask API:', message);
     const flaskRes = await axios.post('http://localhost:4000/process', { message });
-    console.log('Received response from Flask API:', flaskRes.data);
-    res.send(flaskRes.data);
+    console.log('Received response from Flask API:', flaskRes.data.response.response);
+    res.send(flaskRes.data.response.response);
   } catch (error) {
     console.error('Error communicating with Flask API:', error);
     res.status(500).send({ response: 'Error communicating with Flask API' });
