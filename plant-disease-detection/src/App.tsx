@@ -8,6 +8,10 @@ const App: React.FC = () => {
   const [response, setResponse] = useState<string>('');
   const [receive, setReceived] = useState<string>('');
   const [send, setSend] = useState<boolean>(false);
+  // const [file, setFile] = useState<File[]>([]);
+  const [file1, setFile1] = useState<string>('');
+  const [file2, setFile2] = useState<string>('');
+  
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(event.target.value);
@@ -23,17 +27,22 @@ const App: React.FC = () => {
         },
         body: JSON.stringify({ message }),
       });
-      
-      console.log(send)
       const data = await res.json();
-      console.log(data)
       setSend(true);
-      console.log(send);
       setResponse(data.message);
     } catch (error) {
       setResponse('Error sending message');
     }
   };
+
+  function handleImageChange(event:any,id: any) {
+    console.log(event.target.files);
+    if (id == 0) {
+      setFile1(URL.createObjectURL(event.target.files[0]));
+    }else if (id == 1) {
+      setFile2(URL.createObjectURL(event.target.files[0]));
+    }
+  }
 
   const fetchMessage = async () =>{
     try {
@@ -55,7 +64,15 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <div>
+      <div className="App">
+              <h2>Add Image 1:</h2>
+              <input type="file" onChange={(event) => handleImageChange(event,0)} />
+              <img src={file1} />
+              <h2>Add Image 2:</h2>
+              <input type="file" onChange={(event) => handleImageChange(event,1)} />
+              <img src={file2} />
+          </div>
+        <div>
         <h1>Message from Flask (via Express):</h1>
         <p>{receive}</p>
       </div>

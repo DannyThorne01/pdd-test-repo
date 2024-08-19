@@ -38,3 +38,7 @@ Express-Express: In the route `/message` it will get a response from the POST re
 It is our job in the express server to break down this response so we can extract the message. So we can just return json_message  which is { message: <insert_message> } 
 
 Express-React: A different frontend function is going to be requesting the data through a useEffect. The route `\data` will send the message: { message: <insert_message> } to front end.
+
+Uploading Images: https://www.geeksforgeeks.org/how-to-upload-image-and-preview-it-using-reactjs/
+
+HSC Code Repo: https://github.com/cornellh4i/human-services-coalition
