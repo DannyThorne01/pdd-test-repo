@@ -1,7 +1,7 @@
 
 import express from "express";
 import cors from "cors";
-import { getMessage, postMessage, receiveMessage, sendData} from "./controllers/testerController";
+import { getMessage, postMessage, receiveMessage, sendData, postImage} from "./controllers/testerController";
 
 const app = express();
 const router = express.Router();
@@ -28,6 +28,7 @@ router.get('/message', getMessage)
 router.post('/message', postMessage)
 router.post('/notify', receiveMessage)
 router.get('/data', sendData)
+router.post('/image',postImage)
 
 app.use(router)
 

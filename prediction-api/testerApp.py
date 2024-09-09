@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from testerControllers import tester_receive_message, tester_send_message
+from testerControllers import tester_receive_message, tester_send_message, tester_receive_image
 
 app = Flask(__name__)
 
@@ -12,9 +12,9 @@ def home():
 def process():
     return tester_receive_message()
 
-# @app.route('/return', methods=['POST'])
-# def return_message():
-#     return tester_send_message()
+@app.route('/image', methods=['POST'])
+def receive_image():
+    return tester_receive_image()
 
 
 if __name__ == '__main__':

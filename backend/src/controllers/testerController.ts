@@ -25,7 +25,6 @@ export const postMessage = async (req: Request, res: Response) => {
 
 export const receiveMessage = (req: Request, res: Response) => {
   // POST: Receives the return information from the Flask server
-
   if (!req.body) {
     return res.status(400).send({ status: 'No data received' });
   }
@@ -42,4 +41,24 @@ export const sendData = (req: Request, res: Response) => {
   }
   
 }; 
+
+export const postImage = async(req: Request, res: Response) => {
+  // POST: Send a POST request with the image to the Flask server
+  const formData = req.body
+  if (!formData) {
+    console.log('No image received');
+    return res.status(400).send({ response: 'No image received' });
+  }
+  try {
+    const flaskRes = await axios.post('http://localhost:4000/image', formData, {
+      headers: {
+                  ...formData.getHeaders()
+               }
+       });
+    res.send(flaskRes)
+  } catch (error) {
+    console.error('Error sending Image to Flask API:', error);
+    res.status(500).send({ response: 'Error sending Image to Flask API' });
+  }
+}
 

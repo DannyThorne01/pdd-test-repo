@@ -8,9 +8,9 @@ const App: React.FC = () => {
   const [response, setResponse] = useState<string>('');
   const [receive, setReceived] = useState<string>('');
   const [send, setSend] = useState<boolean>(false);
-  // const [file, setFile] = useState<File[]>([]);
-  const [file1, setFile1] = useState<string>('');
-  const [file2, setFile2] = useState<string>('');
+  const [file, setFile] = useState({ preview: '', data: '' });
+  // const [file1, setFile1] = useState<string>('');
+  // const [file2, setFile2] = useState<string>('');
   
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,10 +37,29 @@ const App: React.FC = () => {
 
   function handleImageChange(event:any,id: any) {
     console.log(event.target.files);
-    if (id == 0) {
-      setFile1(URL.createObjectURL(event.target.files[0]));
-    }else if (id == 1) {
-      setFile2(URL.createObjectURL(event.target.files[0]));
+    // if (id == 0) {
+    //   setFile1(URL.createObjectURL(event.target.files[0]));
+    // }else if (id == 1) {
+    //   setFile2(URL.createObjectURL(event.target.files[0]));
+    // }
+    const img = {
+      preview: URL.createObjectURL(event.target.files[0]),
+      data: event.target.files[0],
+    }
+    setFile(img)
+  }
+
+  const imagePusher = async () => {
+    // push image to backend
+    try{
+      const formData = new FormData()
+      formData.append('file', file.data)
+      const res = await fetch('http://localhost:8080/image', {
+        method: 'POST',
+        body: formData
+      })
+    }catch(error){
+      console.error('Error sending the pictures to backend', error);
     }
   }
 
@@ -67,10 +86,10 @@ const App: React.FC = () => {
       <div className="App">
               <h2>Add Image 1:</h2>
               <input type="file" onChange={(event) => handleImageChange(event,0)} />
-              <img src={file1} />
-              <h2>Add Image 2:</h2>
+              <img src={file.preview} />
+              {/* <h2>Add Image 2:</h2>
               <input type="file" onChange={(event) => handleImageChange(event,1)} />
-              <img src={file2} />
+              <img src={file2} /> */}
           </div>
         <div>
         <h1>Message from Flask (via Express):</h1>

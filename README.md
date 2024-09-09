@@ -42,3 +42,10 @@ Express-React: A different frontend function is going to be requesting the data 
 Uploading Images: https://www.geeksforgeeks.org/how-to-upload-image-and-preview-it-using-reactjs/
 
 HSC Code Repo: https://github.com/cornellh4i/human-services-coalition
+
+I ran into a problem: Invalid options object. Dev Server has been initialized using an options object that does not match the API schema. - options.allowedHosts[0] should be a non-empty string.
+I fixed it by changing the following line in `package.json` from:
+Solution: https://stackoverflow.com/questions/70374005/invalid-options-object-dev-server-has-been-initialized-using-an-options-object
+
+Error Setting up DevContainers: [1275 ms] Error: ENOENT: no such file or directory, open '/Users/danielthorne/pdd-test/.devcontainer/plant-disease-detection/Dockerfile' getting this error when opening in devcontainers 
+Solution: Was to set the `build` context in the docker-compose.dev.yml in .devcontainers to : "../<name_of_backend/frontend/predict-api>"

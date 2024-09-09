@@ -1,0 +1,44 @@
+version: '3'
+services:
+  frontend:
+    build: ../plant-disease-detection
+    volumes:
+      - ./plant-disease-detection:/workspace
+    command: npm start
+    ports:
+      - "3000:3000"
+    networks:
+      - plant-disease-network
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - express-backend
+      - flask-backend
+
+  express-backend:
+    build: ../backend
+    volumes:
+      - ./backend:/workspace
+    command: npm start
+    ports:
+      - "8080:8080"
+    networks:
+      - plant-disease-network
+    depends_on:
+      - flask-backend
+
+  flask-backend:
+    build: ../prediction-api
+    volumes:
+      - ./prediction-api:/workspace
+    command: flask run --host=0.0.0.0
+    ports:
+      - "4000:4000"
+    networks:
+      - plant-disease-network
+    environment:
+      - FLASK_ENV=development
+
+networks:
+  plant-disease-network:
+    driver: bridge

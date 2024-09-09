@@ -28,3 +28,8 @@ def tester_send_message(ze_message):
   except requests.exceptions.RequestException as e:
     return jsonify({"Error_Message":f"There was an error {e}"})
   return jsonify({'response': json_message, 'express_response': express_message_data})
+
+def tester_receive_image():
+  file=request.form["file"]
+  if file:
+      print(file)
