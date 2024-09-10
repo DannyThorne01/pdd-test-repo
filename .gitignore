@@ -6,3 +6,9 @@ dist/
 */.h5
 */.hdf5
 */.png
+overlays
+
+# prediction model
+prediction-api/prediction-model/plant_disease_cnn_model_xception.h5
+
+/Users/danielthorne/pdd-test/prediction-api/prediction-model/corn-disease.png
